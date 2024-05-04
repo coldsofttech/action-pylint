@@ -1,0 +1,39 @@
+name: Pre-Release
+
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+
+jobs:
+  pre_release:
+    name: Pre-Release
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        node-version: [ '20' ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      - name: Create Pre-Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.event.head_commit.message }}
+          release_name: v${{ github.event.head_commit.message }}
+          prerelease: true
