@@ -16,6 +16,8 @@
     "flake8",
     "black",
     "pylint",
+    "pycodestyle",
+    "pyflakes",
     "mypy",
     "code-quality",
     "automated-linting",
