@@ -216,9 +216,9 @@ async function main() {
         const tool = core.getInput('tool') || 'flake8';
         const path = core.getInput('path') || '.';
         const artifactName = core.getInput('artifact-name') || 'lint-report';
-        const verbose = core.getBooleanInput('verbose') || true;
-        const color = core.getInput('color') !== 'false';
-        const statistics = core.getInput('statistics') !== 'false';
+        const verbose = core.getInput('verbose');
+        const color = core.getInput('color');
+        const statistics = core.getInput('statistics');
 
         console.log(`Linting Tool: ${tool}`);
         console.log(`Path: ${path}`);
