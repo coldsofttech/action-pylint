@@ -128,7 +128,7 @@ function runLinting(tool, path, artifactName, verbose, color, statistics) {
     });
 }
 
-function uploadReport(artifactName) {
+function uploadArtifact(artifactName) {
     return new Promise((resolve, reject) => {
         let content;
 
