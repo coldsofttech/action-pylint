@@ -35,4 +35,4 @@ jobs:
 
       - name: Run Lint
         run: |
-          npx eslint main.js --save-dev
+          npx eslint main.js
