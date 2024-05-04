@@ -232,6 +232,19 @@ async function main() {
             process.exit(0);
         }
 
+        if (verbose !== true || verbose !== false) {
+            core.warning(`Unsupported Verbose Value: ${verbose}.`);
+            process.exit(0);
+        }
+        if (color !== true || color !== false) {
+            core.warning(`Unsupported Color Value: ${color}.`);
+            process.exit(0);
+        }
+        if (statistics !== true || statistics !== false) {
+            core.warning(`Unsupported Statistics Value: ${statistics}.`);
+            process.exit(0);
+        }
+
         await upgradePip();
 
         await installTool(tool);
