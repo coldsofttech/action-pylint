@@ -216,9 +216,9 @@ async function main() {
         const tool = core.getInput('tool') || 'flake8';
         const path = core.getInput('path') || '.';
         const artifactName = core.getInput('artifact-name') || 'lint-report';
-        const verbose = ['true', 'True', 'TRUE', 'false', 'False', 'FALSE'].includes(core.getInput('verbose'));
-        const color = ['true', 'True', 'TRUE', 'false', 'False', 'FALSE'].includes(core.getInput('color'));
-        const statistics = ['true', 'True', 'TRUE', 'false', 'False', 'FALSE'].includes(core.getInput('statistics'));
+        const verbose = ['true', 'True', 'TRUE'].includes(core.getInput('verbose'));
+        const color = ['true', 'True', 'TRUE'].includes(core.getInput('color'));
+        const statistics = ['true', 'True', 'TRUE'].includes(core.getInput('statistics'));
 
         console.log(`Linting Tool: ${tool}`);
         console.log(`Path: ${path}`);
