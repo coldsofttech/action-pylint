@@ -1,0 +1,38 @@
+name: Python Linter
+
+# Description of the GitHub Action.
+description: |
+  This GitHub Action performs linting for Python packages using the specified linter tool.
+  Supported tools include flake8, pylint, pycodestyle, pyflakes, black, and mypy.
+
+# Inputs required for the action.
+inputs:
+  tool:
+    description: 'Linter tool to be used.'
+    required: true
+    # Supported linter tools: flake8, pylint, pycodestyle, pyflakes, black, and mypy.
+
+  path:
+    description: 'Path or file name where linting will be performed.'
+    required: true
+
+  artifact-name:
+    description: 'Name for the lint report artifact.'
+    required: true
+
+  verbose:
+    description: 'Enable verbose mode. Default is true.'
+    required: false
+
+  color:
+    description: 'Enable colored output within the terminal. Default is true.'
+    required: false
+
+  statistics:
+    description: 'Include statistics in the report. Default is true.'
+    required: false
+
+# Defines the runtime environment.
+runs:
+  using: 'node20'
+  main: 'main.js'
