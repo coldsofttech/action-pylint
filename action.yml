@@ -1,5 +1,7 @@
 name: Python Linter
 
+author: 'coldsofttech'
+
 # Description of the GitHub Action.
 description: |
   This GitHub Action performs linting for Python packages using the specified linter tool.
@@ -45,3 +47,7 @@ inputs:
 runs:
   using: 'node20'
   main: 'main.js'
+
+branding:
+  icon: 'check'
+  color: orange
