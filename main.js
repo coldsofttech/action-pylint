@@ -169,7 +169,7 @@ function installTool(tool) {
 }
 
 // Function to run linting using different tools
-function runLinting(tool, path, artifactName, verbose, color, statistics) {
+function runLinting(tool, path, artifactName, verbose, color, statistics, arguments) {
     // Returns a Promise, which is an asynchronous operation
     return new Promise((resolve, reject) => {
         // Logs a message indicating which linting tool is being run
@@ -185,6 +185,7 @@ function runLinting(tool, path, artifactName, verbose, color, statistics) {
                 if (verbose) command += ' --verbose';
                 if (color) command += ' --color auto';
                 if (statistics) command += ' --count --statistics';
+                if (arguments.trim() !== '') command += ` ${arguments.trim()}`;
                 command += ` --format=default --output-file=${artifactName}`;
                 break;
             case 'pylint': // For Python (pylint) linting
@@ -192,27 +193,32 @@ function runLinting(tool, path, artifactName, verbose, color, statistics) {
                 if (verbose) command += ' -v';
                 if (color) command += ' --output-format=colorized';
                 if (statistics) command += " --msg-template='{path}:{line}:{column}: {msg_id} {msg} [{symbol}]'";
+                if (arguments.trim() !== '') command += ` ${arguments.trim()}`;
                 command += ` --reports=y --exit-zero > ${artifactName}`;
                 break;
             case 'pycodestyle': // For Python (pycodestyle) linting
                 command = `pycodestyle ${path}`;
                 if (verbose) command += ' --verbose';
                 if (statistics) command += " --count --statistics";
+                if (arguments.trim() !== '') command += ` ${arguments.trim()}`;
                 command += ` --format=default > ${artifactName}`;
                 break;
             case 'pyflakes': // For Python (pyflakes) linting
+                if (arguments.trim() !== '') command += ` ${arguments.trim()}`;
                 command = `pyflakes ${path} > ${artifactName}`;
                 break;
             case 'black': // For Python (black) linting
                 command = `black ${path}`;
                 if (verbose) command += ' --verbose';
                 if (color) command += ' --color';
+                if (arguments.trim() !== '') command += ` ${arguments.trim()}`;
                 command += ` > ${artifactName}`;
                 break;
             case 'mypy': // For Python (mypy) linting
                 command = `mypy ${path}`;
                 if (verbose) command += ' --verbose';
                 if (color) command += ' --color-output';
+                if (arguments.trim() !== '') command += ` ${arguments.trim()}`;
                 command += ` --show-error-codes --html-report .`;
                 break;
             default:
@@ -312,6 +318,7 @@ async function main() {
         const verbose = ['true', 'True', 'TRUE'].includes(core.getInput('verbose'));
         const color = ['true', 'True', 'TRUE'].includes(core.getInput('color'));
         const statistics = ['true', 'True', 'TRUE'].includes(core.getInput('statistics'));
+        const arguments = core.getInput('arguments');
 
         // Checks if the specified linting tool is supported
         if (!['flake8', 'pylint', 'pycodestyle', 'pyflakes', 'black', 'mypy'].includes(tool)) {
@@ -332,7 +339,7 @@ async function main() {
         }
 
         // Runs linting using the specified tool and parameters
-        await runLinting(tool, path, artifactName, verbose, color, statistics);
+        await runLinting(tool, path, artifactName, verbose, color, statistics, arguments);
         // Special case for mypy: renames the generated HTML report
         if (tool == 'mypy') {
             await renameFile('index.html', artifactName);

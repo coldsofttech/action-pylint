@@ -7,7 +7,21 @@
   "description": "This GitHub Action performs linting for Python packages using the specified linter tool. Supported tools include flake8, pylint, pycodestyle, pyflakes, black, and mypy.",
   "version": "1.0.0",
   "main": "main.js",
-  "keywords": [],
+  "keywords": [
+    "github-action",
+    "github-actions",
+    "lint",
+    "linting",
+    "python-linting",
+    "flake8",
+    "black",
+    "pylint",
+    "mypy",
+    "code-quality",
+    "automated-linting",
+    "continuous-integration",
+    "static-code-analysis"
+  ],
   "author": "coldsofttech",
   "license": "MIT",
   "devDependencies": {
