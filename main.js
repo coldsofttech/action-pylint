@@ -39,6 +39,27 @@ function checkPythonVersion() {
     });
 }
 
+function upgradePip() {
+    return new Promise((resolve, reject) => {
+        console.log('Upgrading pip.');
+        const pipProcess = spawn('pip', ['install', '--upgrade', 'pip'], { stdio: 'inherit' });
+
+        pipProcess.on('close', (code) => {
+            if (code !== 0) {
+                console.error(`Failed to upgrade pip with code ${code}.`);
+                reject(code);
+            } else {
+                resolve();
+            }
+        });
+
+        pipProcess.on('error', (error) => {
+            console.error(`Error occurred: ${error.message}.`);
+            reject(error);
+        });
+    });
+}
+
 function installTool(tool) {
     return new Promise((resolve, reject) => {
         console.log(`Installing ${tool}.`);
@@ -178,6 +199,7 @@ async function main() {
         console.log(`Statistics: ${statistics}`);
 
         await checkPythonVersion();
+        await upgradePip();
 
         if (['flake8', 'pylint', 'pycodestyle', 'pyflakes', 'black', 'mypy'].includes(tool)) {
             await installTool(tool);
