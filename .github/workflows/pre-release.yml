@@ -39,7 +39,7 @@ jobs:
       - name: Check for existing release
         run: |
           TAG_NAME="v${{ env.BRANCH_NAME }}"
-          RELEASE_ID=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" "https://api.github.com/repos/coldsofttech/action-pylint/releases/tags/${TAG_NAME}")
+          RELEASE_ID=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/coldsofttech/action-pylint/releases/tags/${TAG_NAME}")
           echo $RELEASE_ID
 
       - name: Delete existing release
