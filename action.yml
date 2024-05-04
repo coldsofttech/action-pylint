@@ -19,14 +19,20 @@ inputs:
   artifact-name:
     description: 'Name for the lint report artifact.'
     required: true
+    default: true
+    # Accepted values: true, false
 
   verbose:
     description: 'Enable verbose mode. Default is true.'
     required: false
+    default: true
+    # Accepted values: true, false
 
   color:
     description: 'Enable colored output within the terminal. Default is true.'
     required: false
+    default: true
+    # Accepted values: true, false
 
   statistics:
     description: 'Include statistics in the report. Default is true.'
