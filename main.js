@@ -128,7 +128,7 @@ function runLinting(tool, path, artifactName, verbose, color, statistics) {
     });
 }
 
-async function uploadArtifact(artifactName) {
+function uploadArtifact(artifactName) {
     return new Promise((resolve, reject) => {
         let content;
 
@@ -136,8 +136,7 @@ async function uploadArtifact(artifactName) {
             content = fs.readFileSync(artifactName, 'utf-8');
             const artifactClient = new DefaultArtifactClient();
             const files = [artifactName];
-            const { id, size } = await artifactClient.uploadArtifact(artifactName, files, '.');
-            console.log(`Linting report uploaded successfully: ${artifactName}.`);
+            const { id, size } = artifactClient.uploadArtifact(artifactName, files, '.');
             resolve();
         } catch (error) {
             console.error(`Error occurred: ${error.message}.`);
