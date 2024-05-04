@@ -42,7 +42,18 @@ function checkPythonVersion() {
 function upgradePip() {
     return new Promise((resolve, reject) => {
         console.log('Upgrading pip.');
-        const pipProcess = spawn('pip', ['install', '--upgrade', 'pip'], { stdio: 'inherit' });
+        let pipCommand;
+
+        const pythonVersion = process.env.PYTHON_VERSION;
+        const platform = os.platform();
+
+        if (platform === 'darwin' && pythonVersion.startsWith('3.10')) {
+            pipCommand = 'python3.10 -m pip install --upgrade pip';
+        } else {
+            pipCommand = 'pip install --upgrade pip';
+        }
+
+        const pipProcess = spawn('sh', ['-c', pipCommand], { stdio: 'inherit' });
 
         pipProcess.on('close', (code) => {
             if (code !== 0) {
