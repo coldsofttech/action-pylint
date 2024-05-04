@@ -29,23 +29,21 @@ jobs:
         run: |
           npm install
 
-      - name: Set Branch Name (Ubuntu & MacOS)
-        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+      - name: Set Branch Name
         run: |
           BRANCH_NAME=${GITHUB_REF#refs/heads/}
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           echo $BRANCH_NAME
 
-      - name: Check For Existing Release (Ubuntu & MacOS)
-        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+      - name: Check For Existing Release
         run: |
           TAG_NAME="v${{ env.BRANCH_NAME }}"
           RELEASE_ID=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/coldsofttech/action-pylint/releases/tags/${TAG_NAME}" | jq -r '.id // empty')
           echo "RELEASE_ID=$RELEASE_ID" >> $GITHUB_ENV
           echo $RELEASE_ID
 
-      - name: Delete Existing Release (Ubuntu & MacOS)
-        if: (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest') && env.RELEASE_ID != ''
+      - name: Delete Existing Release
+        if: env.RELEASE_ID != ''
         run: |
           curl -X DELETE -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/coldsofttech/action-pylint/releases/${{ env.RELEASE_ID }}"
 
@@ -54,6 +52,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.set_branch_name.outputs.branch_name }}
-          release_name: v${{ steps.set_branch_name.outputs.branch_name }}
+          tag_name: v${{ env.BRANCH_NAME }}
+          release_name: v${{ env.BRANCH_NAME }}
           prerelease: true
