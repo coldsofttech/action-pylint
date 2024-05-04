@@ -33,7 +33,7 @@ jobs:
         id: set_branch_name
         run: |
           echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-          echo $BRANCH_NAME
+          echo ${{ env.BRANCH_NAME }}
 
       - name: Check for existing release
         id: check_release
