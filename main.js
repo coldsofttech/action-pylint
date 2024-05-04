@@ -193,11 +193,11 @@ async function main() {
 
             await uploadArtifact(artifactName);
         } else {
-            core.setWarning(`Unsupported Linting Tool: ${tool}`);
+            core.warning(`Unsupported Linting Tool: ${tool}`);
             process.exit(1);
         }
     } catch (error) {
-        core.setFailed(error);
+        core.error(error);
         process.exit(1);
     }
 }
