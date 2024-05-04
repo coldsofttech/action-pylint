@@ -21,14 +21,26 @@ function checkPlatform() {
 function checkPythonVersion() {
     return new Promise((resolve, reject) => {
         console.log('Checking Python version.');
-        const pythonProcess = spawn('python', ['--version'], { stdio: 'inherit' });
+        const pythonProcess = spawn('python', ['--version']);
+
+        let output = '';
+
+        pythonProcess.stdout.on('data', (data) => {
+            output += data.toString();
+        });
+
+        pythonProcess.stderr.on('data', (data) => {
+            console.error(`Error occurred: ${data.toString()}`);
+            reject(data.toString());
+        });
 
         pythonProcess.on('close', (code) => {
             if (code !== 0) {
                 console.error(`Failed to check Python version with code ${code}.`);
                 reject(code);
             } else {
-                resolve();
+                console.log('Python version checked successfully.');
+                resolve(output.trim());
             }
         });
 
@@ -41,6 +53,7 @@ function checkPythonVersion() {
 
 function upgradePip() {
     return new Promise((resolve, reject) => {
+        console.log(checkPythonVersion());
         console.log('Upgrading pip.');
         let pipCommand;
 
@@ -209,7 +222,6 @@ async function main() {
         console.log(`Color: ${color}`);
         console.log(`Statistics: ${statistics}`);
 
-        await checkPythonVersion();
         await upgradePip();
 
         if (['flake8', 'pylint', 'pycodestyle', 'pyflakes', 'black', 'mypy'].includes(tool)) {
