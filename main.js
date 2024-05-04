@@ -59,8 +59,6 @@ function upgradePip() {
             let pipCommand;
 
             const platform = os.platform();
-            console.log(platform);
-            console.log(output.startsWith('Python 3.10'));
 
             if (platform === 'darwin' && output.startsWith('Python 3.10')) {
                 console.log('darwin-3.10');
@@ -229,23 +227,24 @@ async function main() {
         console.log(`Color: ${color}`);
         console.log(`Statistics: ${statistics}`);
 
+        if (!['flake8', 'pylint', 'pycodestyle', 'pyflakes', 'black', 'mypy'].includes(tool)) {
+            core.warning(`Unsupported Linting Tool: ${tool}`);
+            process.exit(0);
+        }
+
         await upgradePip();
 
-        if (['flake8', 'pylint', 'pycodestyle', 'pyflakes', 'black', 'mypy'].includes(tool)) {
-            await installTool(tool);
-            if (tool == 'mypy') {
-                await installTool('lxml');
-            }
-
-            await runLinting(tool, path, artifactName, verbose, color, statistics);
-            if (tool == 'mypy') {
-                await renameFile('index.html', artifactName);
-            }
-
-            await uploadArtifact(artifactName);
-        } else {
-            core.warning(`Unsupported Linting Tool: ${tool}`);
+        await installTool(tool);
+        if (tool == 'mypy') {
+            await installTool('lxml');
         }
+
+        await runLinting(tool, path, artifactName, verbose, color, statistics);
+        if (tool == 'mypy') {
+            await renameFile('index.html', artifactName);
+        }
+
+        await uploadArtifact(artifactName);
     } catch (error) {
         core.error(error);
         process.exit(1);
