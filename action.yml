@@ -10,33 +10,36 @@ inputs:
   tool:
     description: 'Linter tool to be used.'
     required: true
+    default: 'flake8'
     # Supported linter tools: flake8, pylint, pycodestyle, pyflakes, black, and mypy.
 
   path:
     description: 'Path or file name where linting will be performed.'
     required: true
+    default: '.'
 
   artifact-name:
     description: 'Name for the lint report artifact.'
     required: true
-    default: true
+    default: 'lint-report'
     # Accepted values: true, false
 
   verbose:
     description: 'Enable verbose mode. Default is true.'
     required: false
-    default: true
+    default: 'true'
     # Accepted values: true, false
 
   color:
     description: 'Enable colored output within the terminal. Default is true.'
     required: false
-    default: true
+    default: 'true'
     # Accepted values: true, false
 
   statistics:
     description: 'Include statistics in the report. Default is true.'
     required: false
+    default: 'true'
 
 # Defines the runtime environment.
 runs:

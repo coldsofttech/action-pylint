@@ -213,9 +213,9 @@ async function main() {
     try {
         await checkPlatform();
 
-        const tool = core.getInput('tool') || 'flake8';
-        const path = core.getInput('path') || '.';
-        const artifactName = core.getInput('artifact-name') || 'lint-report';
+        const tool = core.getInput('tool');
+        const path = core.getInput('path');
+        const artifactName = core.getInput('artifact-name');
         const verbose = ['true', 'True', 'TRUE'].includes(core.getInput('verbose'));
         const color = ['true', 'True', 'TRUE'].includes(core.getInput('color'));
         const statistics = ['true', 'True', 'TRUE'].includes(core.getInput('statistics'));
@@ -229,21 +229,6 @@ async function main() {
 
         if (!['flake8', 'pylint', 'pycodestyle', 'pyflakes', 'black', 'mypy'].includes(tool)) {
             core.warning(`Unsupported Linting Tool: ${tool}`);
-            process.exit(0);
-        }
-
-        if (typeof verbose !== 'boolean') {
-            core.warning(`Unsupported Verbose Value: ${verbose}.`);
-            process.exit(0);
-        }
-
-        if (typeof color !== 'boolean') {
-            core.warning(`Unsupported Color Value: ${color}.`);
-            process.exit(0);
-        }
-
-        if (typeof statistics !== 'boolean') {
-            core.warning(`Unsupported Statistics Value: ${statistics}.`);
             process.exit(0);
         }
 
