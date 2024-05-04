@@ -29,9 +29,9 @@ jobs:
           npm install
           npm install eslint --save-dev
 
-      - name: Check Permissions
+      - name: Update Permissions
         run: |
-          ls -l node_modules/.bin/eslint
+          chmod +x node_modules/.bin/eslint
 
       - name: Run Lint
         run: |
