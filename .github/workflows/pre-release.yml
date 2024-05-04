@@ -31,13 +31,15 @@ jobs:
 
       - name: Set Branch Name
         id: set_branch_name
-        run: echo "::set-output name=branch_name::${GITHUB_REF#refs/heads/}"
+        run: |
+          echo "BRANCH_NAME=${ GITHUB_REF#refs/heads/ }" >> $GITHUB_ENV
+          echo ${{ env.BRANCH_NAME }}
 
       - name: Check for existing release
         id: check_release
         run: |
           TAG_NAME="v${{ steps.set_branch_name.outputs.branch_name }}"
-          RELEASE_ID=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${TAG_NAME}" | jq -r '.id // empty')
+          RELEASE_ID=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" "https://api.github.com/repos/action-pylint/releases/tags/${TAG_NAME}" | jq -r '.id // empty')
           echo "::set-output name=release_id::${RELEASE_ID}"
 
       - name: Delete existing release
