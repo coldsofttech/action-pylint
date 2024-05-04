@@ -36,10 +36,12 @@ jobs:
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           echo $BRANCH_NAME
 
-      - name: Check for existing release
+      - name: Check For Existing Release (Ubuntu & MacOS)
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         run: |
           TAG_NAME="v${{ env.BRANCH_NAME }}"
-          RELEASE_ID=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/coldsofttech/action-pylint/releases/tags/${TAG_NAME}")
+          RELEASE_ID=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/coldsofttech/action-pylint/releases/tags/${TAG_NAME}" | jq -r '.id // empty')
+          echo "RELEASE_ID=$RELEASE_ID" >> $GITHUB_ENV
           echo $RELEASE_ID
 
       - name: Delete existing release
