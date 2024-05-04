@@ -61,6 +61,7 @@ function upgradePip() {
             const platform = os.platform();
 
             if (platform === 'darwin' && output.startsWith('3.10')) {
+                console.log('darwin-3.10');
                 pipCommand = 'python3.10 -m pip install --upgrade pip';
             } else {
                 pipCommand = 'pip install --upgrade pip';
