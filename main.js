@@ -53,31 +53,36 @@ function checkPythonVersion() {
 
 function upgradePip() {
     return new Promise((resolve, reject) => {
-        console.log(checkPythonVersion());
-        console.log('Upgrading pip.');
-        let pipCommand;
+        checkPythonVersion().then((output) => {
+            console.log('Python version: ', output);
+            console.log('Upgrading pip.');
+            let pipCommand;
 
-        const pythonVersion = process.env.PYTHON_VERSION || '';
-        const platform = os.platform();
+            const pythonVersion = process.env.PYTHON_VERSION || '';
+            const platform = os.platform();
 
-        if (platform === 'darwin' && pythonVersion.startsWith('3.10')) {
-            pipCommand = 'python3.10 -m pip install --upgrade pip';
-        } else {
-            pipCommand = 'pip install --upgrade pip';
-        }
-
-        const pipProcess = spawn('sh', ['-c', pipCommand], { stdio: 'inherit' });
-
-        pipProcess.on('close', (code) => {
-            if (code !== 0) {
-                console.error(`Failed to upgrade pip with code ${code}.`);
-                reject(code);
+            if (platform === 'darwin' && pythonVersion.startsWith('3.10')) {
+                pipCommand = 'python3.10 -m pip install --upgrade pip';
             } else {
-                resolve();
+                pipCommand = 'pip install --upgrade pip';
             }
-        });
 
-        pipProcess.on('error', (error) => {
+            const pipProcess = spawn('sh', ['-c', pipCommand], { stdio: 'inherit' });
+
+            pipProcess.on('close', (code) => {
+                if (code !== 0) {
+                    console.error(`Failed to upgrade pip with code ${code}.`);
+                    reject(code);
+                } else {
+                    resolve();
+                }
+            });
+
+            pipProcess.on('error', (error) => {
+                console.error(`Error occurred: ${error.message}.`);
+                reject(error);
+            });
+        }).catch((error) => {
             console.error(`Error occurred: ${error.message}.`);
             reject(error);
         });
