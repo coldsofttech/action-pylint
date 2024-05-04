@@ -32,8 +32,9 @@ jobs:
       - name: Set Branch Name
         id: set_branch_name
         run: |
-          echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-          echo ${{ env.BRANCH_NAME }}
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          echo $BRANCH_NAME
 
       - name: Check for existing release
         id: check_release
