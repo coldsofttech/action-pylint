@@ -59,6 +59,8 @@ function upgradePip() {
             let pipCommand;
 
             const platform = os.platform();
+            console.log(platform);
+            console.log(output.startsWith('3.10'));
 
             if (platform === 'darwin' && output.startsWith('3.10')) {
                 console.log('darwin-3.10');
