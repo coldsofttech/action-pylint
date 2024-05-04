@@ -58,10 +58,9 @@ function upgradePip() {
             console.log('Upgrading pip.');
             let pipCommand;
 
-            const pythonVersion = process.env.PYTHON_VERSION || '';
             const platform = os.platform();
 
-            if (platform === 'darwin' && pythonVersion.startsWith('3.10')) {
+            if (platform === 'darwin' && output.startsWith('3.10')) {
                 pipCommand = 'python3.10 -m pip install --upgrade pip';
             } else {
                 pipCommand = 'pip install --upgrade pip';
