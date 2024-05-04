@@ -61,7 +61,6 @@ function upgradePip() {
             const platform = os.platform();
 
             if (platform === 'darwin' && output.startsWith('Python 3.10')) {
-                console.log('darwin-3.10');
                 pipCommand = 'python3.10 -m pip install --upgrade pip';
             } else {
                 pipCommand = 'pip install --upgrade pip';
@@ -159,6 +158,7 @@ function runLinting(tool, path, artifactName, verbose, color, statistics) {
                 return;
         }
 
+        console.log(command);
         lintProcess = spawn('sh', ['-c', command], { stdio: 'inherit' });
 
         lintProcess.on('close', (code) => {
