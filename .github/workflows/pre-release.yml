@@ -29,11 +29,15 @@ jobs:
         run: |
           npm install
 
+      - name: Set Branch Name
+        id: set_branch_name
+        run: echo "::set-output name=branch_name::${GITHUB_REF#refs/heads/}"
+
       - name: Create Pre-Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.ref_slug }}
-          release_name: v${{ github.ref_slug }}
+          tag_name: v${{ steps.set_branch_name.outputs.branch_name }}
+          release_name: v${{ steps.set_branch_name.outputs.branch_name }}
           prerelease: true
