@@ -44,7 +44,7 @@ function upgradePip() {
         console.log('Upgrading pip.');
         let pipCommand;
 
-        const pythonVersion = process.env.PYTHON_VERSION;
+        const pythonVersion = process.env.PYTHON_VERSION || '';
         const platform = os.platform();
 
         if (platform === 'darwin' && pythonVersion.startsWith('3.10')) {
