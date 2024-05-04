@@ -1,0 +1,38 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  lint:
+    name: Lint
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        node-version: [ '20' ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install eslint --save-dev
+
+      - name: Update Permissions
+        run: |
+          chmod +x node_modules/.bin/eslint
+
+      - name: Run Lint
+        run: |
+          npx eslint main.js

@@ -1,0 +1,33 @@
+{
+  "dependencies": {
+    "@actions/artifact": "^2.1.7",
+    "@actions/core": "^1.10.1"
+  },
+  "name": "action-pylint",
+  "description": "This GitHub Action performs linting for Python packages using the specified linter tool. Supported tools include flake8, pylint, pycodestyle, pyflakes, black, and mypy.",
+  "version": "1.0.0",
+  "main": "main.js",
+  "keywords": [
+    "github-action",
+    "github-actions",
+    "lint",
+    "linting",
+    "python-linting",
+    "flake8",
+    "black",
+    "pylint",
+    "pycodestyle",
+    "pyflakes",
+    "mypy",
+    "code-quality",
+    "automated-linting",
+    "continuous-integration",
+    "static-code-analysis"
+  ],
+  "author": "coldsofttech",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^9.2.0",
+    "globals": "^15.1.0"
+  }
+}
