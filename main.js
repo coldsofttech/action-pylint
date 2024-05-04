@@ -232,15 +232,17 @@ async function main() {
             process.exit(0);
         }
 
-        if (verbose !== true || verbose !== false) {
+        if (typeof verbose !== 'boolean') {
             core.warning(`Unsupported Verbose Value: ${verbose}.`);
             process.exit(0);
         }
-        if (color !== true || color !== false) {
+
+        if (typeof color !== 'boolean') {
             core.warning(`Unsupported Color Value: ${color}.`);
             process.exit(0);
         }
-        if (statistics !== true || statistics !== false) {
+
+        if (typeof statistics !== 'boolean') {
             core.warning(`Unsupported Statistics Value: ${statistics}.`);
             process.exit(0);
         }
